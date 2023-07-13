@@ -21,8 +21,19 @@ spec:
       labels:
         app: app
     spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: kubernetes.io/hostname
+                operator: In
+                values:
+                - ip-192-168-47-255.us-east-2.compute.internal
       containers:
       - envFrom:
+        - configMapRef:
+            name: feature-toggle
         - secretRef:
             name: db-secret
         name: app-deployment
